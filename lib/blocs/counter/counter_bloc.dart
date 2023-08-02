@@ -27,9 +27,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       } else if (colorState.color == Colors.black) {
         incrementSize = -100;
       }
-      add(CounterChangedEvent());
+      // add(CounterChangedEvent());
     });
-    // 4. 이벤트를 통해 stream 에 상태 반영. on<Event> 메서드를 오버라이드하여 구현
+    // 4. Bloc 생성자 안에서 on<Event> 로 stream 에 반영하는 이벤트 등록
     on<CounterChangedEvent>((event, emit) {
       emit(state.copyWith(counter: state.counter + incrementSize));
     });

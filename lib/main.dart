@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ColorBloc>(
-          create: (context) => ColorBloc(),
+          create: (colorContext) => ColorBloc(),
         ),
         BlocProvider<CounterBloc>(
-          create: (context) => CounterBloc(),
+          create: (counterContext) =>
+              CounterBloc(colorBloc: counterContext.read<ColorBloc>()),
         ),
       ],
       child: MaterialApp(
@@ -42,7 +43,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: context.watch<ColorBloc>().state.color,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
@@ -59,12 +60,14 @@ class MyHomePage extends StatelessWidget {
                   fontSize: 25.0,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.read<ColorBloc>().add(ColorChangedEvent());
+              },
             ),
             const SizedBox(height: 20.0),
-            const Text(
-              '0',
-              style: TextStyle(
+            Text(
+              '${context.watch<CounterBloc>().state.counter}',
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 52.0,
               ),
@@ -78,15 +81,12 @@ class MyHomePage extends StatelessWidget {
                   fontSize: 25.0,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.read<CounterBloc>().add(CounterChangedEvent());
+              },
             )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
