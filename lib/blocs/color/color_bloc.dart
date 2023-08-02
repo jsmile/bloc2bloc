@@ -7,8 +7,18 @@ part 'color_state.dart';
 
 class ColorBloc extends Bloc<ColorEvent, ColorState> {
   ColorBloc() : super(ColorState.initial()) {
-    on<ColorEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<ColorChangedEvent>(_changeColor);
+  }
+
+  void _changeColor(ColorChangedEvent event, Emitter<ColorState> emit) {
+    if (state.color == Colors.red) {
+      emit(state.copyWith(color: Colors.green));
+    } else if (state.color == Colors.green) {
+      emit(state.copyWith(color: Colors.blue));
+    } else if (state.color == Colors.blue) {
+      emit(state.copyWith(color: Colors.black));
+    } else if (state.color == Colors.black) {
+      emit(state.copyWith(color: Colors.red));
+    }
   }
 }
