@@ -1,10 +1,23 @@
 part of 'color_bloc.dart';
 
-abstract class ColorState extends Equatable {
-  const ColorState();
-  
-  @override
-  List<Object> get props => [];
-}
+class ColorState extends Equatable {
+  final Color color;
 
-class ColorInitial extends ColorState {}
+  const ColorState({this.color = Colors.red});
+
+  factory ColorState.initial() => const ColorState();
+
+  ColorState copyWith({
+    Color? color,
+  }) {
+    return ColorState(
+      color: color ?? this.color,
+    );
+  }
+
+  @override
+  List<Object> get props => [color];
+
+  @override
+  String toString() => 'ColorState(color: $color)';
+}
