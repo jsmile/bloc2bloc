@@ -5,7 +5,7 @@ class CounterState extends Equatable {
 
   const CounterState({required this.counter});
 
-  factory CounterState.initial() => CounterState(counter: 0);
+  factory CounterState.initial() => const CounterState(counter: 0);
 
   CounterState copyWith({
     int? counter,
