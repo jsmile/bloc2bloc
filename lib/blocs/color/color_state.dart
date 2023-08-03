@@ -1,7 +1,7 @@
 part of 'color_bloc.dart';
 
 class ColorState extends Equatable {
-  final Color color;
+  final Color color; // 1. 관리할 기본속성(상태) 선언
 
   const ColorState({this.color = Colors.red});
 

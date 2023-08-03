@@ -10,13 +10,14 @@ part 'counter_event.dart';
 part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
-  // 1.관리할 기본속성 선언
+  // 3.타 Bloc 와 연결에 사용되는 기본속성 선언
   int incrementSize = 0;
-  // 2. Comunication 할 Bloc 과 StreamSubscription 선언
+  // 4. Comunication 할 Bloc 과 StreamSubscription 선언
   final ColorBloc colorBloc;
   late final StreamSubscription<ColorState> colorSubscription;
-  // 3. 생성자에서 Communication할 Bloc을 받아서 StreamSubscription을 초기화
+  // 5. 생성자에서 Communication할 Bloc을 받아서
   CounterBloc({required this.colorBloc}) : super(CounterState.initial()) {
+    // 5-1. 타 Bloc 에 StreamSubscription( 구독신청 ) 연결
     colorSubscription = colorBloc.stream.listen((ColorState colorState) {
       if (colorState.color == Colors.red) {
         incrementSize = 1;
@@ -29,13 +30,13 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       }
       // add(CounterChangedEvent());
     });
-    // 4. Bloc 생성자 안에서 on<Event> 로 stream 에 반영하는 이벤트 등록
+    // 6. Bloc 생성자 안에서 on<Event> 로 상태변화를 stream 에 반영( emit )하는 이벤트 등록
     on<CounterChangedEvent>((event, emit) {
       emit(state.copyWith(counter: state.counter + incrementSize));
     });
   }
 
-  // 5. Bloc이 종료될 때 StreamSubscription을 취소
+  // 6. Bloc이 종료될 때 StreamSubscription을 취소
   @override
   Future<void> close() {
     colorSubscription.cancel();

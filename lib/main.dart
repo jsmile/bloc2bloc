@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // 7. 연결할 Bloc 들을 MultiBlocProvider 로 묶어서 제공
         BlocProvider<ColorBloc>(
           create: (colorContext) => ColorBloc(),
         ),
@@ -61,6 +62,7 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
+                // 8. 상태변화 요청 이벤트를 stream에 추가하기( add )
                 context.read<ColorBloc>().add(ColorChangedEvent());
               },
             ),
